@@ -157,6 +157,7 @@
     <module>org.openhab.binding.enphaseenergy</module>
     <module>org.openhab.binding.lightwaverf</module>
 	<module>org.openhab.binding.souliss</module>
-    <module>org.openhab.binding.esa2000</module>
+    <module>org.openhab.binding.sagercaster</module>
   </modules>
+</project>
 </project>
