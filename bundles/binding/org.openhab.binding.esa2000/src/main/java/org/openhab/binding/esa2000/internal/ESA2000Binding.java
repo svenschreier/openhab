@@ -101,7 +101,7 @@ public class ESA2000Binding extends
 				.get(CONFIG_KEY_SOCKET_PORT);
 		if (StringUtils.isNotBlank(serverSocketPort)) {
 			final int serverPort = Integer.parseInt(serverSocketPort);
-			this.culProxy = new CULNetworkProxyService(serverPort);
+			this.culProxy = new CULNetworkProxyService(serverPort, this);
 		}
 
 		setProperlyConfigured(true);
@@ -237,7 +237,7 @@ public class ESA2000Binding extends
 		// when enabled acting as cul proxy in the server role we want to send
 		// all received data to our connected clients
 		if (this.culProxy != null) {
-			this.culProxy.send(data);
+			// this.culProxy.send(data);
 		}
 	}
 
@@ -266,7 +266,7 @@ public class ESA2000Binding extends
 
 	private void updateItem(ESA2000BindingConfig config, int value) {
 		DecimalType status = new DecimalType(value
-				* config.getCorrectionFactor());
+				/ config.getCorrectionFactor());
 		eventPublisher.postUpdate(config.getItem().getName(), status);
 	}
 

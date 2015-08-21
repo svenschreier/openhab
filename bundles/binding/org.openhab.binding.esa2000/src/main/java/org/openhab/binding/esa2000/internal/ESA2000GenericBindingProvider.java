@@ -48,7 +48,7 @@ public class ESA2000GenericBindingProvider extends
 	}
 
 	/**
-	 * Binding config in the style {esa2000="address=AA;correctionFactor=NN"}
+	 * Binding config in the style {esa2000="device=AAAA;correctionFactor=NN"}
 	 * {@inheritDoc}
 	 */
 	@Override

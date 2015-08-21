@@ -9,7 +9,7 @@ public class ParsingUtils {
 	 * @return the device address as String
 	 */
 	public static String parseDevice(String data) {
-		return data.substring(2, 6);
+		return data.substring(3, 7);
 	}
 
 	/**
@@ -19,7 +19,8 @@ public class ParsingUtils {
 	 * @return integer representation of the packet count
 	 */
 	public static int parseCounter(String data) {
-		return Integer.parseInt(data.substring(0, 2), 16);
+		final String counterData = data.substring(1, 3);
+		return Integer.parseInt(counterData, 16);
 	}
 
 	/**
