@@ -11,17 +11,16 @@ import org.openhab.core.items.Item;
 public class ESA2000BindingConfig implements BindingConfig {
 
 	private String device;
-	private String code;
 	private double correctionFactor;
 	private Item item;
 
-	public ESA2000BindingConfig(String device, String code, double correctionFactor, Item item) {
+	public ESA2000BindingConfig(String device, double correctionFactor,
+			Item item) {
 		this.device = device;
-		this.code = code;
 		this.correctionFactor = correctionFactor;
 		this.item = item;
 	}
-	
+
 	/**
 	 * @return the device
 	 */
@@ -35,21 +34,6 @@ public class ESA2000BindingConfig implements BindingConfig {
 	 */
 	public void setDevice(String device) {
 		this.device = device;
-	}
-
-	/**
-	 * @return the code
-	 */
-	public String getCode() {
-		return code;
-	}
-
-	/**
-	 * @param code
-	 *            the code to set
-	 */
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	/**

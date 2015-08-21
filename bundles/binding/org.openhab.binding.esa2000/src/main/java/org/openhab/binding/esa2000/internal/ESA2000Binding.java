@@ -8,12 +8,13 @@
  */
 package org.openhab.binding.esa2000.internal;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import org.openhab.binding.esa2000.ESA2000BindingProvider;
-
 import org.apache.commons.lang.StringUtils;
+import org.openhab.binding.esa2000.ESA2000BindingProvider;
 import org.openhab.core.binding.AbstractActiveBinding;
+import org.openhab.core.library.types.DecimalType;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.State;
 import org.openhab.io.transport.cul.CULDeviceException;
@@ -41,11 +42,10 @@ public class ESA2000Binding extends
 	private final static String CONFIG_KEY_DEVICE_NAME = "device";
 	private final static String CONFIG_KEY_SOCKET_PORT = "serverport";
 	private final static String CONFIG_KEY_IP = "ip";
-	
-	private String deviceName;
 
+	private String deviceName;
+	private Map<String, Integer> counterMap = new HashMap<String, Integer>();
 	private CULHandler cul;
-	
 	private CULNetworkProxyService culProxy = null;
 
 	/**
@@ -97,12 +97,13 @@ public class ESA2000Binding extends
 		}
 
 		// enable cul proxy
-		String serverSocketPort = (String) configuration.get(CONFIG_KEY_SOCKET_PORT);
-		if(StringUtils.isNotBlank(serverSocketPort)) {
+		String serverSocketPort = (String) configuration
+				.get(CONFIG_KEY_SOCKET_PORT);
+		if (StringUtils.isNotBlank(serverSocketPort)) {
 			final int serverPort = Integer.parseInt(serverSocketPort);
-			this.culProxy = new CULNetworkProxyService(serverPort);	
-		}		
-		
+			this.culProxy = new CULNetworkProxyService(serverPort);
+		}
+
 		setProperlyConfigured(true);
 	}
 
@@ -229,13 +230,13 @@ public class ESA2000Binding extends
 	@Override
 	public void dataReceived(String data) {
 		if (!StringUtils.isEmpty(data) && data.startsWith("S")) {
-			// parseDataLine(data);
+			parseData(data);
 			logger.info("ESA2000 data received: " + data);
 		}
-		
-		// when enabled acting as cul proxy in the server role we want to send 
+
+		// when enabled acting as cul proxy in the server role we want to send
 		// all received data to our connected clients
-		if(this.culProxy != null) {
+		if (this.culProxy != null) {
 			this.culProxy.send(data);
 		}
 	}
@@ -244,6 +245,51 @@ public class ESA2000Binding extends
 	public void error(Exception e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	//
+	// Private methods
+	//
+
+	private void parseData(String data) {
+		final String device = ParsingUtils.parseDevice(data);
+		if (!checkNewMessage(device, ParsingUtils.parseCounter(data))) {
+			logger.warn("Received message from " + device + " more than once");
+			return;
+		}
+
+		ESA2000BindingConfig config = findConfig(device);
+		if (config != null) {
+			updateItem(config, ParsingUtils.parseCumulatedValue(data));
+		}
+	}
+
+	private void updateItem(ESA2000BindingConfig config, int value) {
+		DecimalType status = new DecimalType(value
+				* config.getCorrectionFactor());
+		eventPublisher.postUpdate(config.getItem().getName(), status);
+	}
+
+	private boolean checkNewMessage(String address, int counter) {
+		Integer lastCounter = counterMap.get(address);
+		if (lastCounter == null) {
+			lastCounter = -1;
+		}
+		if (counter > lastCounter) {
+			return true;
+		}
+		return false;
+	}
+
+	private ESA2000BindingConfig findConfig(String device) {
+		ESA2000BindingConfig config = null;
+		for (ESA2000BindingProvider provider : this.providers) {
+			config = provider.getConfigByDevice(device);
+			if (config != null) {
+				return config;
+			}
+		}
+		return null;
 	}
 
 }

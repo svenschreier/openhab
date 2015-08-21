@@ -8,6 +8,7 @@
  */
 package org.openhab.binding.esa2000;
 
+import org.openhab.binding.esa2000.internal.ESA2000BindingConfig;
 import org.openhab.core.binding.BindingProvider;
 
 /**
@@ -15,5 +16,5 @@ import org.openhab.core.binding.BindingProvider;
  * @since 1.8.0-SNAPSHOT
  */
 public interface ESA2000BindingProvider extends BindingProvider {
-
+	public ESA2000BindingConfig getConfigByDevice(String device);
 }
