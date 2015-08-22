@@ -30,9 +30,9 @@ public class ParsingUtils {
 	 * @return the cumulated value as integers
 	 */
 	public static int parseCumulatedValue(String data) {
-		return getIntFromChars(data.charAt(8), data.charAt(9), data.charAt(10),
-				data.charAt(11), data.charAt(12), data.charAt(13),
-				data.charAt(14), data.charAt(15));
+		return getIntFromChars(data.charAt(11), data.charAt(12), data.charAt(13),
+				data.charAt(14), data.charAt(15), data.charAt(16),
+				data.charAt(17), data.charAt(18));
 	}
 
 	//
