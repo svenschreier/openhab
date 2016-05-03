@@ -3367,6 +3367,8 @@
         </Product>
     </Manufacturer>
     <Manufacturer>
+        <Id>0239</Id>
+        <Name>Stelpro</Name>
         <Product>
             <Reference>
                 <Type>0001</Type>
@@ -3375,6 +3377,32 @@
             <Model>STZW402</Model>
             <Label lang="en">4000W Thermostat</Label>
             <ConfigFile>stelpro/stzw402.xml</ConfigFile>
+        </Product>
+    </Manufacturer>
+    <Manufacturer>
+        <Id>0178</Id>
+        <Name>Nexia</Name>
+          <Product>
+            <Reference>
+                <Type>4442</Type>
+                <Id>3130</Id>
+            </Reference>
+            <Model>DB100Z</Model>
+            <Label lang="en">Doorbell</Label>
+            <ConfigFile>nexia/db100z.xml</ConfigFile>
+        </Product>
+    </Manufacturer>
+    <Manufacturer>
+        <Id>000C</Id>
+        <Name>HomeSeer Technologies</Name>
+        <Product>
+            <Reference>
+                <Type>4447</Type>
+                <Id>3034</Id>
+            </Reference>
+            <Model>HS-WD100+</Model>
+            <Label lang="en">Scene Capable Wall Dimmer Switch</Label>
+            <ConfigFile>homeseer/hswd100.xml</ConfigFile>
         </Product>
     </Manufacturer> 
 </Manufacturers>
