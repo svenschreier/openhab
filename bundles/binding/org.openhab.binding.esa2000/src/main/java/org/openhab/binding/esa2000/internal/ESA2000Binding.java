@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2015, openHAB.org and others.
+ * Copyright (c) 2010-2016 by the respective copyright holders.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -26,11 +26,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Implement this class if you are going create an actively polling service like
- * querying a Website/Device.
+ * This class implements the communcation between openHAB and ESA2000 devices. Via
+ * RF received updates are received directly, there is no polling.
  *
  * @author sven.schreier
- * @since 1.9.0-SNAPSHOT
+ * @since 1.9.0
  */
 public class ESA2000Binding extends AbstractBinding<ESA2000BindingProvider>implements ManagedService, CULListener {
 
@@ -46,16 +46,19 @@ public class ESA2000Binding extends AbstractBinding<ESA2000BindingProvider>imple
 
     @Override
     public void activate() {
+        logger.info("Activating ESA2000 binding");
         this.culHandlerLifecycle.open();
     }
 
     @Override
     public void deactivate() {
+        logger.info("Deactivating ESA2000 binding");
         this.culHandlerLifecycle.close();
     }
 
     @Override
     public void updated(Dictionary<String, ?> properties) throws ConfigurationException {
+        logger.info("Received new config");
         this.culHandlerLifecycle.config(properties);
     }
 
@@ -125,6 +128,6 @@ public class ESA2000Binding extends AbstractBinding<ESA2000BindingProvider>imple
 
     @Override
     public void error(Exception e) {
-        // TODO Auto-generated method stub
+        logger.error("Exception instead of new data from CUL", e);
     }
 }

@@ -13,7 +13,7 @@ import org.openhab.core.binding.BindingProvider;
 
 /**
  * @author sven.schreier
- * @since 1.8.0-SNAPSHOT
+ * @since 1.9.0
  */
 public interface ESA2000BindingProvider extends BindingProvider {
     public ESA2000BindingConfig getConfigByDevice(String device);
